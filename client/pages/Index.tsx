@@ -1,11 +1,11 @@
-import Header from '@/components/Header';
-import Hero from '@/components/Hero';
-import InfoBanner from '@/components/InfoBanner';
-import Speakers from '@/components/Speakers';
-import Program from '@/components/Program';
-import Sponsors from '@/components/Sponsors';
-import FAQ from '@/components/FAQ';
-import Footer from '@/components/Footer';
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import InfoBanner from "@/components/InfoBanner";
+import Speakers from "@/components/Speakers";
+import Program from "@/components/Program";
+import Sponsors from "@/components/Sponsors";
+import FAQ from "@/components/FAQ";
+import Footer from "@/components/Footer";
 
 export default function Index() {
   return (
