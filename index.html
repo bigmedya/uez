@@ -1,18 +1,140 @@
 <!doctype html>
 <html lang="tr">
   <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-W82GTS2D');</script>
+    <!-- End Google Tag Manager -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      
+      var hasUTM = window.location.search.indexOf('utm_') !== -1 || window.location.search.indexOf('src=') !== -1;
+      
+      gtag("consent", "default", {
+        analytics_storage: hasUTM ? "granted" : "denied"
+      });
+      
+      if (hasUTM) {
+        setTimeout(function() {
+          gtag("event", "page_view", {
+            page_location: window.location.href,
+            page_path: window.location.pathname + window.location.search + window.location.hash,
+            page_title: document.title
+          });
+        }, 100);
+      }
+      
+      if (!hasUTM) {
+        var originalPush = window.dataLayer.push;
+        window.dataLayer.push = function() {
+          var result = originalPush.apply(window.dataLayer, arguments);
+          for (var i = 0; i < arguments.length; i++) {
+            var item = arguments[i];
+            if (item && typeof item === 'object' && item.event && item.event.indexOf('efilli') !== -1) {
+              gtag("consent", "update", { analytics_storage: "granted" });
+              gtag("event", "page_view", {
+                page_location: window.location.href,
+                page_path: window.location.pathname + window.location.search + window.location.hash,
+                page_title: document.title
+              });
+              break;
+            }
+          }
+          return result;
+        };
+      }
+    </script>
+    <script src="https://bundles.efilli.com/uluslararasiekonomizirvesi.org.prod.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UEZ 2026 - Uluslararası Ekonomi Zirvesi</title>
-    <meta
-      name="description"
-      content="BÜYÜK DÖNÜŞÜM: Dayanıklı ve sürdürülebilir bir küresel sisteme geçişin pusulası"
-    />
+    <meta name="description" content="BÜYÜK DÖNÜŞÜM: Dayanıklı ve sürdürülebilir bir küresel sisteme geçişin pusulası" />
+    
+    <!-- SEO Meta Tags -->
+    <meta name="keywords" content="UEZ, uluslararası ekonomi zirvesi, UEZ 2026, ekonomi, zirve, sürdürülebilir sistem, küresel dönüşüm, ekonomi konferansı" />
+    <meta name="author" content="UEZ 2026 - Uluslararası Ekonomi Zirvesi" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="Turkish" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="UEZ 2026 - Uluslararası Ekonomi Zirvesi" />
+    <meta property="og:title" content="UEZ 2026 - Uluslararası Ekonomi Zirvesi" />
+    <meta property="og:description" content="BÜYÜK DÖNÜŞÜM: Dayanıklı ve sürdürülebilir bir küresel sisteme geçişin pusulası" />
+    <meta property="og:image" content="https://uluslararasiekonomizirvesi.org/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:url" content="https://uluslararasiekonomizirvesi.org/" />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:locale:alternate" content="en_US" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@UEkonomiZirvesi" />
+    <meta name="twitter:creator" content="@UEkonomiZirvesi" />
+    <meta name="twitter:title" content="UEZ 2026 - Uluslararası Ekonomi Zirvesi" />
+    <meta name="twitter:description" content="BÜYÜK DÖNÜŞÜM: Dayanıklı ve sürdürülebilir bir küresel sisteme geçişin pusulası" />
+    <meta property="twitter:image" content="https://uluslararasiekonomizirvesi.org/og-image.jpg" />
+    <meta name="twitter:image:alt" content="UEZ 2026 - Uluslararası Ekonomi Zirvesi" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://uluslararasiekonomizirvesi.org/" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <!-- Theme Color & PWA - koyu mor (#0f0132) -->
+    <meta name="theme-color" content="#0f0132" />
+    <meta name="msapplication-TileColor" content="#0f0132" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="UEZ 2026" />
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://bundles.efilli.com" />
+    <link rel="preconnect" href="https://cdn.onesignal.com" />
+    <!--json-ld-event-->
+
+    <!-- OneSignal SDK - init sadece /m sayfasında client/lib/onesignal.ts üzerinden yapılır -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+
+    <!-- Google tag (gtag.js) — send_page_view: false; ilk hit SPA veya consent sonrası page_view event -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7P6V1R66KP"></script>
+    <script>
+      gtag("js", new Date());
+      gtag("config", "G-7P6V1R66KP", { send_page_view: false });
+    </script>
+    <script type="module" src="/client/main.tsx"></script>
+    <style>
+      html.js-on .static-fallback{display:none!important}
+    </style>
   </head>
 
   <body>
-    <div id="root"></div>
-
-    <script type="module" src="/client/App.tsx"></script>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W82GTS2D"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <script>document.documentElement.classList.add('js-on');</script>
+    <div id="root"><!--ssr-outlet--></div>
+    <!--preloaded-state-->
   </body>
 </html>

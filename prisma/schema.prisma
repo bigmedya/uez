@@ -1,0 +1,354 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model about_content {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique @db.VarChar(255)
+  value     Json
+  updatedAt DateTime
+}
+
+model contact_settings {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique @db.VarChar(255)
+  value     Json
+  updatedAt DateTime
+}
+
+model contracts {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique @db.VarChar(255)
+  title     String   @db.VarChar(255)
+  title_en  String?  @db.VarChar(255)
+  content   String   @db.Text
+  content_en String? @db.Text
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@index([isActive])
+  @@index([slug])
+}
+
+model faqs {
+  id         Int      @id @default(autoincrement())
+  question   String   @db.VarChar(500)
+  question_en String? @db.VarChar(500)
+  answer     String   @db.Text
+  answer_en  String?  @db.Text
+  active     Boolean  @default(true)
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime
+}
+
+model form_responses {
+  id          Int      @id @default(autoincrement())
+  formType    String   @db.VarChar(255)
+  formName    String   @db.VarChar(255)
+  data        Json
+  ipAddress   String   @db.VarChar(255)
+  submittedAt DateTime
+  createdAt   DateTime @default(now())
+
+  @@index([formType])
+}
+
+model homepage_content {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique @db.VarChar(255)
+  value     Json
+  updatedAt DateTime
+}
+
+model packages {
+  id         Int      @id @default(autoincrement())
+  packageId  String   @unique @db.VarChar(255)
+  title      String   @db.VarChar(255)
+  title_en   String?  @db.VarChar(255)
+  subtitle   String   @default("") @db.VarChar(255)
+  subtitle_en String? @db.VarChar(255)
+  price      String   @db.VarChar(255)
+  features   Json
+  features_en Json?
+  active     Boolean  @default(true)
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime
+}
+
+model program_categories {
+  id           Int            @id @default(autoincrement())
+  name         String         @db.VarChar(255)
+  name_en      String?        @db.VarChar(255)
+  slug         String         @unique @db.VarChar(255)
+  order        Int            @default(0)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now())
+  program_days program_days[]
+
+  @@index([slug])
+}
+
+model program_days {
+  id                 Int                 @id @default(autoincrement())
+  title              String?             @db.VarChar(255)
+  title_en           String?             @db.VarChar(255)
+  slug               String?             @db.VarChar(255)
+  categoryId         Int?
+  wpPostId           Int?
+  label              String              @db.VarChar(255)
+  label_en           String?             @db.VarChar(255)
+  date               DateTime            @db.Date
+  active             Boolean             @default(false)
+  order              Int                 @default(0)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime
+  program_categories program_categories? @relation(fields: [categoryId], references: [id])
+  program_items      program_items[]
+
+  @@index([categoryId])
+  @@index([slug])
+}
+
+
+model program_items {
+  id              Int          @id @default(autoincrement())
+  dayId           Int
+  time            String       @db.VarChar(255)
+
+  reminderSentAt  DateTime?
+  /** Oturum yeri: Amber Salonu, Ihlamur Restaurant, Lobby Fuaye */
+  location        String?      @db.VarChar(100)
+  title           String       @db.VarChar(500)
+  title_en        String?      @db.VarChar(500)
+  note            String?      @db.Text
+  note_en         String?      @db.Text
+  note_image      String?      @db.Text
+  isMultiSpeaker  Boolean      @default(false)
+  wpSpeakerId     String?      @db.VarChar(255)
+  wpSpeakerIds    Json?
+  moderator       String?      @db.VarChar(255)
+  moderator_en    String?      @db.VarChar(255)
+  moderatorTitle  String?      @db.VarChar(255)
+  moderator_title_en String?   @db.VarChar(255)
+  moderator_ids   Json?        // [speakerId, ...] multiple moderators
+  speakers        Json
+  order           Int          @default(0)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  program_days    program_days @relation(fields: [dayId], references: [id], onDelete: Cascade)
+
+  @@index([dayId], map: "program_items_dayId_fkey")
+}
+
+model registrations {
+  id            Int                         @id @default(autoincrement())
+  name          String                      @db.VarChar(255)
+  email         String                      @db.VarChar(255)
+  phone         String?                     @db.VarChar(50)
+  mobile        String?                     @db.VarChar(50)
+  title         String?                     @db.VarChar(255)
+  institution   String?                     @db.VarChar(255)
+  package       String?                     @db.VarChar(50)
+  paymentMethod String?                     @db.VarChar(50)
+  paymentStatus registrations_paymentStatus
+  amount        Decimal?                    @db.Decimal(10, 2)
+  invoiceType   String?                     @db.VarChar(50)
+  invoiceData   Json?
+  createdAt     DateTime                    @default(now())
+  updatedAt     DateTime
+}
+
+model site_settings {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique @db.VarChar(255)
+  value     Json
+  updatedAt DateTime
+}
+
+model speakers {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  slug        String?  @db.VarChar(255)
+  title       String?  @db.VarChar(255)
+  titleEn     String?  @db.VarChar(255)
+  company     String?  @db.VarChar(255)
+  companyEn   String?  @db.VarChar(255)
+  position    String?  @db.VarChar(255)
+  positionEn  String?  @db.VarChar(255)
+  image       String?  @db.VarChar(500)
+  biography   String?  @db.Text
+  biographyEn String?  @db.Text
+  year        String?  @db.VarChar(255)
+  wpPostId    Int?
+  order       Int      @default(0)
+  pinnedYears Json?    @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime
+}
+
+model sponsor_categories {
+  id         Int        @id @default(autoincrement())
+  title      String     @db.VarChar(255)
+  title_en   String?    @db.VarChar(255)
+  order      Int        @default(0)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @default(now())
+  sponsors   sponsors[]
+
+  @@index([order])
+}
+
+model sponsors {
+  id           Int                @id @default(autoincrement())
+  name         String             @db.VarChar(255)
+  name_en      String?            @db.VarChar(255)
+  logo         String?            @db.VarChar(500)
+  localImage   String?            @db.VarChar(500)
+  link         String?            @db.VarChar(500)
+  active       Boolean            @default(true)
+  order        Int                @default(0)
+  year         String?            @db.VarChar(255)
+  width        Float?
+  categoryId   Int
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @default(now())
+  category     sponsor_categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([categoryId])
+  @@index([active])
+}
+
+model uez2026_content {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique @db.VarChar(255)
+  value     Json
+  updatedAt DateTime
+}
+
+model archive_descriptions {
+  id           Int      @id @default(autoincrement())
+  year         String   @unique @db.VarChar(255)
+  description  String   @db.Text
+  description_en String? @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
+}
+
+model admin_roles {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique @db.VarChar(100)
+  permissions Json     @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  users       users[]
+}
+
+model users {
+  id         Int          @id @default(autoincrement())
+  email      String       @unique @db.VarChar(255)
+  password   String       @db.VarChar(255)
+  name       String?      @db.VarChar(255)
+  role       users_role   @default(admin)
+  roleId     Int?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime
+  admin_role admin_roles? @relation(fields: [roleId], references: [id], onDelete: SetNull)
+  admin_logs admin_logs[]
+  external_payment_entries external_payment_entries[]
+}
+
+/// Dışarıdan ödeme: her "Ekle" ile eklenen tutar satırı (toplam = SUM)
+model external_payment_entries {
+  id        Int      @id @default(autoincrement())
+  amount    Int
+  userId    Int
+  createdAt DateTime @default(now())
+  user      users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+enum users_role {
+  admin
+  editor
+}
+
+model admin_logs {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  action    String   @db.VarChar(255)
+  entity    String   @db.VarChar(255)
+  entityId  String?  @db.VarChar(255)
+  details   Json?
+  ipAddress String   @db.VarChar(255)
+  userAgent String?  @db.Text
+  createdAt DateTime @default(now())
+  user      users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([action])
+  @@index([entity])
+  @@index([createdAt])
+}
+
+enum registrations_paymentStatus {
+  paid
+  pending
+  cancelled
+}
+
+model fcm_tokens {
+  id         Int      @id @default(autoincrement())
+  token      String   @unique @db.VarChar(500)
+  userAgent  String?  @db.Text
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  lastUsed   DateTime @default(now())
+
+  @@index([isActive])
+  @@index([createdAt])
+}
+
+model notification_history {
+  id         Int      @id @default(autoincrement())
+  title      String   @db.VarChar(500)
+  body       String   @db.Text
+  url        String?  @db.VarChar(500)
+  sentCount  Int      @default(0)
+  isTest     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model onesignal_notifications {
+  id             Int       @id @default(autoincrement())
+  notificationId String    @db.VarChar(255) // OneSignal notification ID
+  title          String    @db.VarChar(500)
+  body           String    @db.Text
+  url            String?   @db.VarChar(500)
+  recipients     Int       @default(0)
+  segments       String?   @db.VarChar(500) // Comma separated segments
+  userIds        String?   @db.Text // Comma separated OneSignal player IDs
+  isScheduled    Boolean   @default(false)
+  scheduledFor   DateTime?
+  response       Json? // Full OneSignal API response
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([createdAt])
+  @@index([notificationId])
+  @@index([isScheduled])
+}

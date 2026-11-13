@@ -1,33 +1,11 @@
 import { useState } from "react";
-
-const faqs = [
-  {
-    id: 1,
-    question: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-  {
-    id: 2,
-    question: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-  {
-    id: 3,
-    question: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-  {
-    id: 4,
-    question: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-];
+import { useTranslation } from "react-i18next";
+import { useActiveFaq } from "@/hooks/useFaq";
 
 export default function FAQ() {
+  const { t, i18n } = useTranslation();
+  const locale = i18n.language?.startsWith("en") ? "en" : "tr";
+  const { items, isLoading } = useActiveFaq(locale);
   const [openId, setOpenId] = useState<number | null>(null);
 
   const toggleFAQ = (id: number) => {
@@ -38,24 +16,31 @@ export default function FAQ() {
     <section className="bg-white py-16 lg:py-24">
       <div className="container mx-auto px-8 lg:px-16">
         {/* Title */}
-        <h2 className="text-5xl lg:text-7xl font-semibold text-purple-dark text-center mb-16">
-          SIKÇA SORULAN SORULAR
+        <h2 className="text-3xl lg:text-5xl font-semibold text-purple-dark text-center mb-16">
+          {t("faq.title")}
         </h2>
+
+        {/* Loading state */}
+        {isLoading && (
+          <div className="flex justify-center py-12">
+            <div className="w-8 h-8 border-4 border-purple-accent border-t-purple-primary rounded-full animate-spin" />
+          </div>
+        )}
 
         {/* FAQ List */}
         <div className="max-w-4xl mx-auto space-y-4">
-          {faqs.map((faq, index) => (
+          {items.map((faq) => (
             <div key={faq.id} className="border-b border-gray-border">
               <button
                 onClick={() => toggleFAQ(faq.id)}
                 className="w-full flex items-center justify-between py-6 text-left group"
               >
-                <span className="text-2xl lg:text-3xl text-gray-text pr-8">
+                <span className="text-lg lg:text-xl text-gray-text pr-8">
                   {faq.question}
                 </span>
                 <svg
-                  width="35"
-                  height="19"
+                  width="24"
+                  height="13"
                   viewBox="0 0 35 19"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -74,11 +59,18 @@ export default function FAQ() {
                   openId === faq.id ? "max-h-96 pb-6" : "max-h-0"
                 }`}
               >
-                <p className="text-xl text-gray-text">{faq.answer}</p>
+                <p className="text-base text-gray-text">{faq.answer}</p>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Empty state */}
+        {!isLoading && items.length === 0 && (
+          <div className="text-center text-gray-500 py-12 text-base">
+            {t("faq.noQuestions")}
+          </div>
+        )}
       </div>
     </section>
   );

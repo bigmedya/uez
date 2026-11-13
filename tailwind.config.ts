@@ -15,7 +15,7 @@ export default {
     extend: {
       colors: {
         // Design system colors
-        "purple-dark": "#1F0034",
+        "purple-dark": "#0F0032",
         "purple-primary": "#4B4596",
         "purple-medium": "#3D2F77",
         "purple-accent": "#AA67DB",
@@ -108,7 +108,7 @@ export default {
         "gradient-secondary":
           "radial-gradient(961% 212.2% at 0% -30.83%, #2E1755 17.35%, #38276C 58.29%, #8C5C70 100%)",
         "gradient-purple":
-          "linear-gradient(278deg, #EA9267 -28.58%, #4B4596 30.07%, #1F0034 105.34%)",
+          "linear-gradient(278deg, #EA9267 -28.58%, #4B4596 30.07%, #0F0032 105.34%)",
         "gradient-orange":
           "radial-gradient(99.41% 138.74% at 0% 0%, #F37A71 17%, #DB8C5C 53%, #EF568E 100%)",
       },

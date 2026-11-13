@@ -24,4 +24,12 @@ dist-ssr
 *.sw?
 
 .config/
-!.env
+.env
+.env.*
+!.env.example
+.vs/
+generated/
+data/
+public/uploads/
+public/assets/
+

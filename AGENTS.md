@@ -162,3 +162,31 @@ const data: MyRouteResponse = await response.json();
 - Production-ready with multiple deployment options
 - Comprehensive UI component library included
 - Type-safe API communication via shared interfaces
+
+## OneSignal Push Notifications (Backend)
+
+**Programa konuşmacı eklendiğinde** (yeni oturum konuşmacıyla veya mevcut oturuma konuşmacı atanınca) backend otomatik OneSignal push bildirimi gönderir. Gün veya kategori eklemede bildirim gönderilmez.
+
+### Dosya yapısı
+
+- **`server/services/onesignal.ts`** – OneSignal API çağrısı (env’den `ONESIGNAL_API_KEY` = `AppId::RestApiKey`).
+- **`server/config/notificationMessages.ts`** – Bildirim şablonu: `speakerAdded`; placeholders: `{{title}}`, `{{time}}`, `{{speakerNames}}`.
+- **`server/routes/programRoutes.ts`** – Konuşmacı içeren kayıt eklendiğinde veya oturum güncellenip konuşmacı atandığında `notifyProgramUpdate` tetiklenir (fire-and-forget).
+- **`server/routes/onesignal-notifications.ts`** – Manuel/test bildirim API’si; aynı servisi kullanır.
+
+### Ortam değişkenleri (.env)
+
+- **`ONESIGNAL_API_KEY`** – Tek değişken. Format: `AppId::RestApiKey` (örn. `e6fd62b2-f120-4dba-8fff-cb23929d5952::os_v2_app_xxx`). Dashboard > Keys & IDs’den App ID ve REST API Key’i alıp `::` ile birleştir.
+
+Tanımlı değilse bildirim atlanır; hata fırlatılmaz.
+
+### Tetiklenen yerler
+
+| İşlem | Tetikleyen endpoint | Koşul | Şablon |
+|--------|----------------------|--------|
+| Yeni oturum + konuşmacı | `POST /api/program/days/:dayId/items` | Body'de `speakerIds` veya `speakerId` var | `speakerAdded` |
+| Oturuma konuşmacı atandı | `PUT /api/program/days/:dayId/items/:itemId` | Body'de `speakerIds` veya `speakerId` gönderildi | `speakerAdded` |
+
+### Şablonları özelleştirme
+
+`server/config/notificationMessages.ts` içindeki `programNotificationTemplates.speakerAdded` (başlık/mesaj) düzenleyin. Placeholder’lar: `{{title}}`, `{{time}}`, `{{speakerNames}}`.

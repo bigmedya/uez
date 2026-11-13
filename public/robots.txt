@@ -1,14 +1,22 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
 User-agent: *
 Allow: /
+
+# Sitemaps
+Sitemap: https://uluslararasiekonomizirvesi.org/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /uezyonetim/
+Disallow: /api/
+Disallow: /uploads/forms/
+
+Disallow: /arsiv/2025-2/
+Disallow: /kayit-ol
+
+# Allow important pages
+Allow: /
+Allow: /hakkimizda
+Allow: /uez-2026
+Allow: /paketler
+Allow: /bize-ulasin
+Allow: /stars-of-regions
+Allow: /arsiv/
