@@ -29,7 +29,7 @@ dist-ssr
 !.env.example
 .vs/
 generated/
-data/
+/data/
 public/uploads/
 public/assets/
 
