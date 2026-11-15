@@ -210,6 +210,19 @@ export function createServer(options?: CreateServerOptions) {
 
   // Middleware
   app.use(cors());
+  app.use("/api", (req, res, next) => {
+    const path = req.path.toLowerCase().replace(/\/+$/, "");
+    const read = req.method === "GET" || req.method === "HEAD";
+    const privateRead = /^\/(admin|forms|utm-analytics|onesignal)(\/|$)/.test(path)
+      || req.query.forAdmin !== undefined;
+    const publicPost = req.method === "POST" && [
+      "/auth/login", "/auth/logout", "/forms/submit", "/forms/upload", "/contact/send",
+      "/payment/process", "/payment/checkout-initialize", "/payment/callback", "/payment/3ds-callback",
+    ].includes(path);
+    if ((read && !privateRead) || publicPost) return next();
+    res.set("Cache-Control", "no-store");
+    return authenticateToken(req, res, () => requireAdmin(req, res, next));
+  });
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ extended: true, limit: "50mb" }));
   

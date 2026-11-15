@@ -6,6 +6,21 @@ import "./global.css";
 import "./i18n";
 import { QueryClient, QueryClientProvider, HydrationBoundary } from "@tanstack/react-query";
 
+import { getAdminBearerToken } from "./lib/adminSession";
+
+const browserFetch = window.fetch.bind(window);
+window.fetch = (input, init) => {
+  const url = new URL(input instanceof Request ? input.url : input.toString(), location.href);
+  if (!/^\/uezyonetim(?:\/|$)/.test(location.pathname) || url.origin !== location.origin || !url.pathname.startsWith("/api/")) {
+    return browserFetch(input, init);
+  }
+  const token = getAdminBearerToken();
+  if (!token) return browserFetch(input, init);
+  const headers = new Headers(init?.headers ?? (input instanceof Request ? input.headers : undefined));
+  if (!headers.has("Authorization")) headers.set("Authorization", "Bearer " + token);
+  return browserFetch(input, { ...init, headers, redirect: "error" });
+};
+
 declare global {
   interface Window {
     __PRELOADED_STATE__?: string;

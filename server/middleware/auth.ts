@@ -1,7 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-change-in-production";
+export function getJwtSecret(): string {
+  const secret = process.env.JWT_SECRET;
+  if (secret && secret !== "your-secret-key-change-in-production") return secret;
+  if (process.env.NODE_ENV === "production") throw new Error("JWT_SECRET must be configured");
+  return "development-only";
+}
 
 export interface AuthenticatedRequest extends Request {
   user?: {
@@ -21,7 +26,7 @@ export function authenticateToken(req: AuthenticatedRequest, res: Response, next
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as any;
+    const decoded = jwt.verify(token, getJwtSecret(), { algorithms: ["HS256"] }) as any;
     req.user = {
       userId: decoded.userId,
       username: decoded.username,

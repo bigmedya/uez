@@ -1,9 +1,9 @@
 import { RequestHandler } from "express";
 import { getUserByEmailOrName, verifyUserPassword } from "../db/users";
 import jwt from "jsonwebtoken";
-import { createAdminLog, getClientIP, LOG_ACTIONS, LOG_ENTITIES } from "../utils/adminLogger";
+import { createAdminLog, LOG_ACTIONS, LOG_ENTITIES } from "../utils/adminLogger";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-change-in-production";
+import { getJwtSecret } from "../middleware/auth";
 
 // --- Giriş deneme sınırlaması (Rate Limiting) ---
 const MAX_ATTEMPTS = 4;
@@ -73,7 +73,7 @@ export const login: RequestHandler = async (req, res) => {
       record.lockedUntil = null;
     }
 
-    const { username, password } = req.body;
+    const { username, password } = req.body ?? {};
 
     if (!username || !password) {
       res.status(400).json({ error: "Kullanıcı adı ve şifre gereklidir" });
@@ -124,7 +124,7 @@ export const login: RequestHandler = async (req, res) => {
 
       const token = jwt.sign(
         { username, type: "admin", userId: user.id, roleId: user.roleId ?? undefined },
-        JWT_SECRET,
+        getJwtSecret(),
         { expiresIn: "24h" }
       );
 
@@ -155,16 +155,7 @@ export const login: RequestHandler = async (req, res) => {
       });
     } catch (roleErr) {
       console.error("Login (role/permissions) fallback:", roleErr);
-      const token = jwt.sign(
-        { username, type: "admin" },
-        JWT_SECRET,
-        { expiresIn: "24h" }
-      );
-      return res.json({
-        success: true,
-        token,
-        user: { id: null, username, permissions: null },
-      });
+      return res.status(503).json({ error: "Yönetici rolü yüklenemedi" });
     }
   } catch (error) {
     console.error("Login error:", error);
@@ -179,7 +170,7 @@ export const logout: RequestHandler = async (req, res) => {
 
     if (token) {
       try {
-        const decoded = jwt.verify(token, JWT_SECRET) as any;
+        const decoded = jwt.verify(token, getJwtSecret()) as any;
         if (decoded.userId) {
           // Logout işlemini logla
           await createAdminLog({
