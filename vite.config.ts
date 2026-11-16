@@ -46,9 +46,9 @@ export default defineConfig(({ mode }) => ({
             return "vendor";
           }
         },
-        chunkFileNames: "assets/[name]-[hash].js",
-        entryFileNames: "assets/[name]-[hash].js",
-        assetFileNames: "assets/[name]-[hash][extname]",
+        chunkFileNames: "assets/uez-[name]-[hash].js",
+        entryFileNames: "assets/uez-[name]-[hash].js",
+        assetFileNames: "assets/uez-[name]-[hash][extname]",
       },
     },
     chunkSizeWarningLimit: 1200,
