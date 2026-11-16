@@ -84,6 +84,7 @@ export function getPageTitle(pathname: string, year?: string): string {
 
 export function getPageDescription(pathname: string, year?: string): string {
   const path = normalizePathname(pathname);
+  if (path === "/") return "2027'de görüşmek üzere!";
   if (path.startsWith("/arsiv/")) {
     const y = year ?? path.replace("/arsiv/", "").split("/")[0];
     return `Uluslararası Ekonomi Zirvesi ${y} etkinliğine ait konuşmacılar, program ve sponsor bilgileri.`;
@@ -103,6 +104,7 @@ function normalizePathname(pathname: string): string {
 export function getFullTitle(pathname?: string, year?: string): string {
   if (!pathname) return SITE_TITLE;
   const path = normalizePathname(pathname);
+  if (path === "/") return "2027'de görüşmek üzere! | Uluslararası Ekonomi Zirvesi";
   if (!isKnownPath(path)) return NOT_FOUND_TITLE;
   if (path === "/uez-2026/") return UEZ_2026_PAGE_TITLE;
   const archiveYear = path.startsWith("/arsiv/") ? path.replace("/arsiv/", "").split("/")[0] : undefined;
@@ -192,9 +194,7 @@ function getStaticBodyContent(path: string, origin: string): string {
   let mainContent = DEFAULT_DESCRIPTION;
 
   if (path === "/") {
-    h1 = SITE_TITLE;
-    mainContent =
-      "BÜYÜK DÖNÜŞÜM: Dayanıklı ve sürdürülebilir bir küresel sisteme geçişin pusulası. 9-12 Nisan 2026, İstanbul.";
+    return '<main><h1>2027&#39;de görüşmek üzere!</h1><a href="/arsiv/2026/">2026 arşivi</a></main>';
   } else if (path === "/hakkimizda/") {
     h1 = "Hakkımızda";
     mainContent =

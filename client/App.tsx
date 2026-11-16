@@ -1,6 +1,7 @@
 import { Toaster } from "sonner";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AppHead } from "@/components/AppHead";
+import ClosingPage from "@/pages/ClosingPage";
 import Index from "@/pages/Index";
 import About from "@/pages/About";
 import UEZ2026 from "@/pages/UEZ2026";
@@ -51,6 +52,13 @@ import { PWAInstallModal } from "@/components/PWAInstallModal";
 
 /** SSR ve client’ta ortak route listesi (StaticRouter/BrowserRouter ile sarılır). */
 export function AppRoutes() {
+  const { pathname, hash, search } = useLocation();
+  if (pathname === "/") {
+    if (["#program", "#sponsorlar", "#konusmacilar"].includes(hash)) {
+      return <Navigate to={"/arsiv/2026/" + search + hash} replace />;
+    }
+    return <><AppHead /><ClosingPage /></>;
+  }
   return (
     <>
       <AppHead />
@@ -60,15 +68,10 @@ export function AppRoutes() {
         <NotificationProvider>
         <Routes>
           {/* Trailing slash yönlendirmeleri */}
-          <Route path="/hakkimizda" element={<Navigate to="/hakkimizda/" replace />} />
-          <Route path="/uez-2026" element={<Navigate to="/uez-2026/" replace />} />
           <Route path="/kayit-ol" element={<NotFound />} />
-          <Route path="/paketler" element={<Navigate to="/paketler/" replace />} />
-          <Route path="/bize-ulasin" element={<Navigate to="/bize-ulasin/" replace />} />
-          <Route path="/stars-of-regions" element={<Navigate to="/stars-of-regions/" replace />} />
           
           {/* Public routes */}
-          <Route path="/" element={<Index />} />
+          <Route path="/arsiv/2026/" element={<Index />} />
           <Route path="/hakkimizda/" element={<About />} />
           <Route path="/uez-2026/" element={<UEZ2026 />} />
           <Route path="/kayit-ol/" element={<NotFound />} />
@@ -79,11 +82,6 @@ export function AppRoutes() {
           <Route path="/arsiv/:year" element={<Archive />} />
 
           {/* Contract pages - trailing slash yönlendirmeleri */}
-          <Route path="/cerez-politikasi" element={<Navigate to="/cerez-politikasi/" replace />} />
-          <Route path="/acik-riza-metni" element={<Navigate to="/acik-riza-metni/" replace />} />
-          <Route path="/aydinlatma-metni" element={<Navigate to="/aydinlatma-metni/" replace />} />
-          <Route path="/teslimat-ve-iade-sartlari" element={<Navigate to="/teslimat-ve-iade-sartlari/" replace />} />
-          <Route path="/mesafeli-satis-sozlesmesi" element={<Navigate to="/mesafeli-satis-sozlesmesi/" replace />} />
           
           {/* Contract pages */}
           <Route path="/cerez-politikasi/" element={<ContractPage />} />

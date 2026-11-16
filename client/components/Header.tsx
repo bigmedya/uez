@@ -33,7 +33,7 @@ function handleHomeAnchorClick(
   currentHash: string,
   sectionId: "program" | "sponsorlar"
 ) {
-  const isHome = pathname === "/" || pathname === "";
+  const isHome = /^\/arsiv\/2026\/?$/.test(pathname);
   const targetHash = `#${sectionId}`;
   if (isHome && currentHash === targetHash) {
     e.preventDefault();
@@ -127,14 +127,14 @@ export default function Header() {
               {t("header.uez2026")}
             </Link>
             <Link
-              to="/#program"
+              to="/arsiv/2026/#program"
               onClick={(e) => handleHomeAnchorClick(e, pathname, hash, "program")}
               className={cn("text-sm 2xl:text-base font-medium transition-colors whitespace-nowrap", isLightHeader ? "text-gray-900 hover:text-purple-primary" : "text-white hover:text-orange-primary")}
             >
               {t("header.program")}
             </Link>
             <Link
-              to="/#sponsorlar"
+              to="/arsiv/2026/#sponsorlar"
               onClick={(e) => handleHomeAnchorClick(e, pathname, hash, "sponsorlar")}
               className={cn("text-sm 2xl:text-base font-medium transition-colors whitespace-nowrap", isLightHeader ? "text-gray-900 hover:text-purple-primary" : "text-white hover:text-orange-primary")}
             >
@@ -363,7 +363,7 @@ export default function Header() {
                 {t("header.uez2026")}
               </Link>
               <Link
-                to="/#program"
+                to="/arsiv/2026/#program"
                 className="text-white text-lg font-medium hover:text-orange-primary transition-colors py-2"
                 onClick={(e) => {
                   handleHomeAnchorClick(e, pathname, hash, "program");
@@ -373,7 +373,7 @@ export default function Header() {
                 {t("header.program")}
               </Link>
               <Link
-                to="/#sponsorlar"
+                to="/arsiv/2026/#sponsorlar"
                 className="text-white text-lg font-medium hover:text-orange-primary transition-colors py-2"
                 onClick={(e) => {
                   handleHomeAnchorClick(e, pathname, hash, "sponsorlar");

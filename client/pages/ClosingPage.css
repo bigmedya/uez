@@ -1,0 +1,15 @@
+.uez-closing {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(24px, 5vw, 80px) clamp(24px, 8vw, 144px);
+  color: white;
+  background: linear-gradient(95deg, rgba(25, 9, 47, .98) 8%, rgba(34, 10, 60, .85) 52%, rgba(34, 10, 60, .56)), url("/hakkimizda.png") center / cover;
+}
+.uez-closing-logo { width: clamp(100px, 12vw, 170px); }
+.uez-closing-message { margin: auto 0; padding: 3rem 0; }
+.uez-closing h1 { font-size: clamp(2.6rem, 7vw, 7rem); font-weight: 600; line-height: 1.05; letter-spacing: -.05em; color: white; }
+.uez-closing h1 span { display: block; font-size: clamp(4.5rem, 13vw, 14rem); color: #ffae70; }
+.uez-closing a { display: inline-flex; align-items: center; gap: 1.5rem; margin-top: 2.5rem; padding: .85rem 1.35rem; border: 1px solid #ffffffaa; border-radius: 99px; color: white; font-weight: 600; }
+.uez-closing a:hover, .uez-closing a:focus-visible { background: white; color: #241036; }
