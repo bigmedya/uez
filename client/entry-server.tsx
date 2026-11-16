@@ -60,7 +60,7 @@ export async function render(url: string, origin: string): Promise<SSRResult> {
   });
 
   const pathname = url.replace(/\?.*$/, "") || "/";
-  if (/^\/arsiv\/2026\/?$/.test(pathname)) {
+  if (/^\/arsiv\/2026\/zirve\/?$/.test(pathname)) {
     await prefetchHomepage(queryClient, origin);
   }
   // API'den veri alan sayfalar için prefetch (prerender'da dolu HTML çıksın, loading'de takılı kalmasın)

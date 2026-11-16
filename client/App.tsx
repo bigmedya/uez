@@ -55,7 +55,7 @@ export function AppRoutes() {
   const { pathname, hash, search } = useLocation();
   if (pathname === "/") {
     if (["#program", "#sponsorlar", "#konusmacilar"].includes(hash)) {
-      return <Navigate to={"/arsiv/2026/" + search + hash} replace />;
+      return <Navigate to={"/arsiv/2026/zirve/" + search + hash} replace />;
     }
     return <><AppHead /><ClosingPage /></>;
   }
@@ -71,7 +71,7 @@ export function AppRoutes() {
           <Route path="/kayit-ol" element={<NotFound />} />
           
           {/* Public routes */}
-          <Route path="/arsiv/2026/" element={<Index />} />
+          <Route path="/arsiv/2026/zirve/" element={<Index />} />
           <Route path="/hakkimizda/" element={<About />} />
           <Route path="/uez-2026/" element={<UEZ2026 />} />
           <Route path="/kayit-ol/" element={<NotFound />} />

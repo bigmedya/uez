@@ -63,6 +63,7 @@ export function isKnownPath(pathname: string): boolean {
   // normalizePathname tüm yollara sondaki / ekler; regex buna uyumlu olmalı
   const archiveMatch = path.match(/^\/arsiv\/([^/]+)\/?$/);
   if (archiveMatch && VALID_ARCHIVE_YEARS.has(archiveMatch[1])) return true;
+  if (path === "/arsiv/2026/zirve/") return true;
   if (path === ADMIN_BASE_PATH || path.startsWith(ADMIN_BASE_PATH + "/")) return true;
   return false;
 }
@@ -105,6 +106,7 @@ export function getFullTitle(pathname?: string, year?: string): string {
   if (!pathname) return SITE_TITLE;
   const path = normalizePathname(pathname);
   if (path === "/") return "2027'de görüşmek üzere! | Uluslararası Ekonomi Zirvesi";
+  if (path === "/arsiv/2026/zirve/") return "UEZ 2026 | Zirve Arşivi";
   if (!isKnownPath(path)) return NOT_FOUND_TITLE;
   if (path === "/uez-2026/") return UEZ_2026_PAGE_TITLE;
   const archiveYear = path.startsWith("/arsiv/") ? path.replace("/arsiv/", "").split("/")[0] : undefined;
@@ -194,7 +196,7 @@ function getStaticBodyContent(path: string, origin: string): string {
   let mainContent = DEFAULT_DESCRIPTION;
 
   if (path === "/") {
-    return '<main><h1>2027&#39;de görüşmek üzere!</h1><a href="/arsiv/2026/">2026 arşivi</a></main>';
+    return '<main><h1>2027&#39;de görüşmek üzere!</h1><a href="/arsiv/2026/zirve/">2026 arşivi</a></main>';
   } else if (path === "/hakkimizda/") {
     h1 = "Hakkımızda";
     mainContent =

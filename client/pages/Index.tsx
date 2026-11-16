@@ -200,7 +200,7 @@ export default function Index() {
   // Menüden Program / Sponsorlar tıklanınca scroll (anasayfadaysak veya başka sayfadan /#program, /#sponsorlar ile gelindiyse)
   const isInitialMount = useRef(true);
   useEffect(() => {
-    if (!/^\/arsiv\/2026\/?$/.test(pathname)) return;
+    if (!/^\/arsiv\/2026\/zirve\/?$/.test(pathname)) return;
     const hashValue = (hash || window.location.hash || "").replace(/^#/, "") ? (hash || window.location.hash) : "";
     const hasHash = hashValue === "#program" || hashValue === "program" || hashValue === "#sponsorlar" || hashValue === "sponsorlar";
     // Hash varsa her zaman scroll (başka sayfadan gelince de çalışsın); hash yoksa sadece ilk mount'ta atlama
