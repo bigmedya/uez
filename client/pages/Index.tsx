@@ -136,7 +136,8 @@ export default function Index() {
     .map((cat) => ({
       ...cat,
       title: locale === "en" && cat.title_en ? cat.title_en : cat.title,
-      sponsors: cat.sponsors.filter((s) => s.active),
+      // Tera Finans was withdrawn from the 2026 summit sponsor display.
+      sponsors: cat.sponsors.filter((s) => s.active && s.id !== 4290),
     }))
     .filter((cat) => cat.sponsors.length > 0);
   const hasSpeakers = speakers2026.length > 0;
